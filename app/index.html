@@ -3,20 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Palm Coast Cover Studio — GTA-style cover maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">PC</span><span>Palm Coast <b>Cover Studio</b></span></div>
+  <div class="top-actions">
+    <button id="undo" type="button" title="Undo">Undo</button>
+    <button id="redo" type="button" title="Redo">Redo</button>
+    <span class="offline-dot" title="No network requests — photos never leave this machine">● 100% offline</span>
+  </div>
+</header>
+<main class="studio">
+  <aside class="controls" id="controls">
+    <section>
+      <h2>1 · Photos</h2>
+      <div id="tray" class="tray" aria-label="Loaded photos"></div>
+      <label class="upload-btn">Add your photos
+        <input id="addPhotos" type="file" accept="image/*" multiple>
+      </label>
+      <div class="sample-row">
+        <button type="button" data-sample="samples/boulevard.jpg">Sample · Boulevard</button>
+        <button type="button" data-sample="samples/pier.jpg">Sample · Pier</button>
+      </div>
+      <p class="hint">Click a photo in the tray, then click a panel below to place it there. Drag the preview to move a photo, scroll to zoom it.</p>
+    </section>
+    <section>
+      <h2>2 · Layout</h2>
+      <div class="btn-row" id="layouts" role="group" aria-label="Cover layout"></div>
+    </section>
+    <section>
+      <h2>3 · Panels</h2>
+      <div id="panelList" class="panel-list"></div>
+      <p class="hint">Select a panel to edit it. Each panel has its own photo, zoom and position.</p>
+    </section>
+    <section>
+      <h2>4 · Words</h2>
+      <label class="field">Title
+        <input id="title" type="text" maxlength="48" value="BOULEVARD QUEEN">
+      </label>
+      <label class="field">Subtitle
+        <input id="subtitle" type="text" maxlength="60" value="one night in palm coast">
+      </label>
+      <label class="field">Badge
+        <input id="badge" type="text" maxlength="24" value="PALM COAST · EST. 2026">
+      </label>
+      <div class="field">Heat
+        <span id="heatStars" class="heat-stars" role="group" aria-label="Heat level"></span>
+      </div>
+    </section>
+    <section>
+      <h2>5 · Grade &amp; finish</h2>
+      <div class="swatches" id="grades" role="group" aria-label="Colour grade"></div>
+      <label class="check"><input id="grain" type="checkbox" checked> Film grain</label>
+      <label class="check"><input id="vignette" type="checkbox" checked> Vignette</label>
+    </section>
+    <section>
+      <h2>6 · Export</h2>
+      <div class="btn-row" id="sizes" role="group" aria-label="Export size"></div>
+      <button id="export" class="primary" type="button">Export PNG</button>
+      <button id="exportAll" type="button">Export all 3 sizes</button>
+      <p id="status" role="status"></p>
+    </section>
+  </aside>
+  <section class="stage">
+    <div class="canvas-wrap"><canvas id="cover" width="720" height="720" aria-label="Cover preview"></canvas></div>
+    <p class="stage-hint">Click a panel to select it · drag to move its photo · scroll to zoom</p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>

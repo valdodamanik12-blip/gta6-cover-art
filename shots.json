@@ -1,5 +1,1 @@
-[
-  { "name": "1-cover.jpg", "query": "?shot=cover&photo=pier&caption=Sunset%20Heist", "w": 1080, "h": 1080 },
-  { "name": "2-editor.jpg", "query": "?shot=editor&photo=boulevard&caption=Boulevard%20Queen", "w": 1280, "h": 720 },
-  { "name": "3-cover.jpg", "query": "?shot=cover&photo=boulevard&caption=Boulevard%20Queen", "w": 1080, "h": 1080 }
-]
+[{"h":720,"name":"1-cover.jpg","query":"?shot=cover&layout=poster&grade=sunset&size=wide&photo=boulevard&photo2=pier&caption=BOULEVARD%20QUEEN","w":1280},{"h":720,"name":"2-editor.jpg","query":"?shot=editor&layout=poster&grade=neon&size=square&photo=pier&photo2=boulevard&caption=PIER%20PRESSURE","w":1280},{"h":1080,"name":"3-cover.jpg","query":"?shot=cover&layout=hero&grade=gold&size=square&photo=boulevard&photo2=pier&caption=GOLDEN%20HOUR","w":1080},{"h":720,"name":"4-export.jpg","note":"export PNG is downloaded from this scene, then the downloaded file itself is screenshotted","query":"?shot=editor&layout=tilt&grade=neon&size=portrait&photo=pier&photo2=boulevard&caption=NEON%20TIDE","w":1280}]
