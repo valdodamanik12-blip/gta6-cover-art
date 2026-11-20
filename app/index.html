@@ -1,23 +1,141 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
-<link rel="stylesheet" href="./style.css">
+<title>Neon Vice Cover Studio — GTA-style cover art maker</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">NV</span>
+    <div>
+      <h1>Neon Vice Cover Studio</h1>
+      <p class="tagline">Turn any photo into GTA-style cover art — offline, on your machine.</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button id="undoBtn" type="button" title="Undo (Ctrl+Z)">↩ Undo</button>
+    <button id="redoBtn" type="button" title="Redo (Ctrl+Shift+Z)">↪ Redo</button>
+    <button id="resetBtn" type="button">Reset</button>
+  </div>
+</header>
+
+<main class="workspace">
+  <section class="stage">
+    <div class="canvas-wrap">
+      <canvas id="preview" width="1080" height="1080" aria-label="Cover preview"></canvas>
+      <div class="stage-hint" id="stageHint">Click a panel to select it, then crop it below.</div>
+    </div>
+    <div class="panel-strip" id="panelStrip" aria-label="Panels"></div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <aside class="controls">
+    <section class="card">
+      <h2>1 · Photos</h2>
+      <p class="help">Photos never leave your machine. Pick a sample or upload your own.</p>
+      <div class="samples">
+        <button type="button" class="sample-btn" data-sample="boulevard">
+          <img src="samples/boulevard.jpg" alt="Sample photo: boulevard at golden hour">
+          <span>Boulevard</span>
+        </button>
+        <button type="button" class="sample-btn" data-sample="pier">
+          <img src="samples/pier.jpg" alt="Sample photo: pier over turquoise water">
+          <span>Pier</span>
+        </button>
+      </div>
+      <label class="upload-btn">＋ Add your photos
+        <input id="photoInput" type="file" accept="image/*" multiple hidden>
+      </label>
+      <button id="fillAllBtn" type="button" class="wide">Fill every panel with the selected photo</button>
+      <div id="photoList" class="photo-list"></div>
+    </section>
+
+    <section class="card">
+      <h2>2 · Layout</h2>
+      <div class="layout-grid" id="layoutGrid"></div>
+    </section>
+
+    <section class="card">
+      <h2>3 · Selected panel</h2>
+      <p class="help" id="panelLabel">Panel 1 of 3</p>
+      <label>Photo
+        <select id="panelPhoto"></select>
+      </label>
+      <label>Zoom <span class="val" id="zoomVal">1.20×</span>
+        <input id="zoomSlider" type="range" min="1" max="3" step="0.01" value="1.2">
+      </label>
+      <label>Move sideways <span class="val" id="oxVal">0</span>
+        <input id="oxSlider" type="range" min="-0.5" max="0.5" step="0.01" value="0">
+      </label>
+      <label>Move up / down <span class="val" id="oyVal">0</span>
+        <input id="oySlider" type="range" min="-0.5" max="0.5" step="0.01" value="0">
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>4 · Colour grade</h2>
+      <div class="grade-grid" id="gradeGrid"></div>
+    </section>
+
+    <section class="card">
+      <h2>5 · Caption</h2>
+      <label>Title
+        <input id="titleInput" type="text" maxlength="24" value="VICE COAST">
+      </label>
+      <label>Subtitle
+        <input id="subtitleInput" type="text" maxlength="48" value="Neon nights, palm dreams">
+      </label>
+      <label>Title colour
+        <select id="titleColor">
+          <option value="sunset">Sunset gradient</option>
+          <option value="white">White</option>
+          <option value="pink">Hot pink</option>
+          <option value="gold">Gold</option>
+        </select>
+      </label>
+      <label>Title position
+        <select id="titlePos">
+          <option value="bottom">Bottom</option>
+          <option value="top">Top</option>
+          <option value="center">Centre</option>
+        </select>
+      </label>
+      <label class="check"><input id="grainCheck" type="checkbox" checked> Film grain</label>
+      <label class="check"><input id="vignetteCheck" type="checkbox" checked> Vignette</label>
+      <label class="check"><input id="frameCheck" type="checkbox" checked> White panel frames</label>
+    </section>
+
+    <section class="card export-card">
+      <h2>6 · Export PNG</h2>
+      <div class="size-row" id="sizeRow">
+        <button type="button" data-size="1080x1080" class="size-btn active">1080 × 1080</button>
+        <button type="button" data-size="1080x1350" class="size-btn">1080 × 1350</button>
+        <button type="button" data-size="1920x1080" class="size-btn">1920 × 1080</button>
+      </div>
+      <button id="exportBtn" type="button" class="export-btn">⬇ Export PNG</button>
+      <button id="exportAllBtn" type="button" class="wide">Export all three sizes</button>
+      <p class="help">The PNG downloads straight from your browser. Nothing is uploaded.</p>
+    </section>
+  </aside>
 </main>
-<script type="module" src="./src/main.js"></script>
+
+<div id="lightbox" class="lightbox" hidden>
+  <div class="lightbox-inner">
+    <div class="lightbox-head">
+      <span id="lightboxLabel">Your cover — 1080 × 1080</span>
+      <button id="lightboxClose" type="button">✕ Close</button>
+    </div>
+    <img id="lightboxImg" alt="Exported cover art">
+    <a id="lightboxDownload" class="export-btn" download="neon-vice-cover.png">⬇ Download this PNG</a>
+  </div>
+</div>
+
+<footer class="foot">
+  <p>Neon Vice Cover Studio — original art, made offline. Not affiliated with Rockstar Games.</p>
+</footer>
+
+<script type="module" src="src/main.js"></script>
 </body>
 </html>

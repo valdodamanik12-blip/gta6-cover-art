@@ -1,5 +1,1 @@
-[
-  { "name": "1-cover.jpg", "query": "?shot=cover&photo=pier&caption=Sunset%20Heist", "w": 1080, "h": 1080 },
-  { "name": "2-editor.jpg", "query": "?shot=editor&photo=boulevard&caption=Boulevard%20Queen", "w": 1280, "h": 720 },
-  { "name": "3-cover.jpg", "query": "?shot=cover&photo=boulevard&caption=Boulevard%20Queen", "w": 1080, "h": 1080 }
-]
+{"1-cover.jpg":"Exported 1920x1080 cover (Neon Night grade, Hero Split layout) shown in the app's export viewer","2-editor.jpg":"The editor with both sample photos loaded in the Four Panel layout, Vice Sunset grade","3-cover-square.jpg":"Exported 1080x1080 cover (Vice Sunset grade, Four Panel layout) shown in the app's export viewer","4-cover-portrait.jpg":"Exported 1080x1350 cover (Palm Gold grade, Triptych layout) shown in the app's export viewer"}
